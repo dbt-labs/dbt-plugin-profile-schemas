@@ -41,9 +41,17 @@ type ProfileFieldElement struct {
 	Description  *string       `json:"description,omitempty"`
 	DisplayName  *string       `json:"displayName,omitempty"`
 	FieldDefault *FieldDefault `json:"fieldDefault"`
+	FieldGroup   *FieldGroup   `json:"fieldGroup,omitempty"`
 	FieldType    FieldType     `json:"fieldType"`
 	Sensitive    *bool         `json:"sensitive,omitempty"`
 }
+
+type FieldGroup string
+const (
+	Connection FieldGroup = "connection"
+	Credentials FieldGroup = "credentials"
+	Project FieldGroup = "project"
+)
 
 type FieldType string
 const (

@@ -43,7 +43,15 @@
   	"properties": {
   		"displayName":{"type": "string"},
   		"description":{"type": "string"},
-  		"sensitive": {"type": "boolean"},
+  		"sensitive": {
+			"type": "boolean", 
+			"default": false
+		},
+  		"fieldGroup": {
+  		    "type": "string",
+  	    	"enum": ["credentials", "connection", "project"],
+			"default": "project"
+  		},
   		"fieldType": {
   		    "type": "string",
   	    	"enum": ["integer", "string", "boolean"]

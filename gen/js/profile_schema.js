@@ -187,9 +187,15 @@ const typeMap = {
         { json: "description", js: "description", typ: u(undefined, "") },
         { json: "displayName", js: "displayName", typ: u(undefined, "") },
         { json: "fieldDefault", js: "fieldDefault", typ: u(undefined, u(true, 0, "")) },
+        { json: "fieldGroup", js: "fieldGroup", typ: u(undefined, r("FieldGroup")) },
         { json: "fieldType", js: "fieldType", typ: r("FieldType") },
         { json: "sensitive", js: "sensitive", typ: u(undefined, true) },
     ], "any"),
+    "FieldGroup": [
+        "connection",
+        "credentials",
+        "project",
+    ],
     "FieldType": [
         "boolean",
         "integer",

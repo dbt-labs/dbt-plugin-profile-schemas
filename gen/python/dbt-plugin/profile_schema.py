@@ -73,6 +73,12 @@ class Dbt:
         return result
 
 
+class FieldGroup(Enum):
+    CONNECTION = "connection"
+    CREDENTIALS = "credentials"
+    PROJECT = "project"
+
+
 class FieldType(Enum):
     BOOLEAN = "boolean"
     INTEGER = "integer"
@@ -83,13 +89,15 @@ class ProfileFieldElement:
     description: Optional[str]
     display_name: Optional[str]
     field_default: Optional[Union[int, bool, str]]
+    field_group: Optional[FieldGroup]
     field_type: FieldType
     sensitive: Optional[bool]
 
-    def __init__(self, description: Optional[str], display_name: Optional[str], field_default: Optional[Union[int, bool, str]], field_type: FieldType, sensitive: Optional[bool]) -> None:
+    def __init__(self, description: Optional[str], display_name: Optional[str], field_default: Optional[Union[int, bool, str]], field_group: Optional[FieldGroup], field_type: FieldType, sensitive: Optional[bool]) -> None:
         self.description = description
         self.display_name = display_name
         self.field_default = field_default
+        self.field_group = field_group
         self.field_type = field_type
         self.sensitive = sensitive
 
@@ -99,9 +107,10 @@ class ProfileFieldElement:
         description = from_union([from_str, from_none], obj.get("description"))
         display_name = from_union([from_str, from_none], obj.get("displayName"))
         field_default = from_union([from_int, from_bool, from_str, from_none], obj.get("fieldDefault"))
+        field_group = from_union([FieldGroup, from_none], obj.get("fieldGroup"))
         field_type = FieldType(obj.get("fieldType"))
         sensitive = from_union([from_bool, from_none], obj.get("sensitive"))
-        return ProfileFieldElement(description, display_name, field_default, field_type, sensitive)
+        return ProfileFieldElement(description, display_name, field_default, field_group, field_type, sensitive)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -111,6 +120,8 @@ class ProfileFieldElement:
             result["displayName"] = from_union([from_str, from_none], self.display_name)
         if self.field_default is not None:
             result["fieldDefault"] = from_union([from_int, from_bool, from_str, from_none], self.field_default)
+        if self.field_group is not None:
+            result["fieldGroup"] = from_union([lambda x: to_enum(FieldGroup, x), from_none], self.field_group)
         result["fieldType"] = to_enum(FieldType, self.field_type)
         if self.sensitive is not None:
             result["sensitive"] = from_union([from_bool, from_none], self.sensitive)
