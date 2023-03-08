@@ -1,0 +1,65 @@
+{
+  "id": "https://github.com/dbt-labs/dbt-plugin-profile-schemas/v1/dbt-plugin.schema.json",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "description": "The schema for how dbt plugins describe the profile configuration",
+  "title": "Profile Schema",
+  "type": "object",
+  "required": ["dbtMeta", "profiles"],
+  "properties": {
+    "dbtMeta": {"$ref": "#/$defs/dbtMeta"},
+    "profiles": {
+			"type": "array",
+			"items": {"$ref": "#/$defs/profile"}
+    }
+  },
+"$defs": {
+  "dbtMeta": {
+  	"type": "object",
+  	"required": ["profileVersion"],
+  	"properties": {
+  		"profileVersion": {"type": "string"},
+  		"suportedPackageVersions": {
+  			"type": "array",
+  			"items": {"type": "string"}
+		}
+  	 }
+  },
+  "profile": {
+  	"type": "object",
+  	"required": ["profileFields"],
+  	"properties": {
+  		"id": {"type": "string"},
+  		"displayName":{"type": "string"},
+  		"profileFields": {
+  			"type": "array",
+  			"minItems": 1,
+  			"items": {"$ref": "#/$defs/profileField"}
+  		}
+  	}
+  },
+  "profileField": {
+  	"type": "object",
+  	"required": ["fieldType"],
+  	"properties": {
+  		"displayName":{"type": "string"},
+  		"description":{"type": "string"},
+  		"sensitive": {
+			"type": "boolean", 
+			"default": false
+		},
+  		"fieldGroup": {
+  		    "type": "string",
+  	    	"enum": ["credentials", "connection", "project"],
+			"default": "project"
+  		},
+  		"fieldType": {
+  		    "type": "string",
+  	    	"enum": ["integer", "string", "boolean"]
+  		},
+  		"fieldDefault": {
+  		    "type": ["integer", "string", "boolean"]
+  		}
+  	}
+  }
+ }
+}
